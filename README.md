@@ -1,5 +1,6 @@
-# hostpid-risk
-Lateral credential harvesting via process namespace sharing
+## Hacking pods attached to the Host PID namespace
+
+**[HostPID](https://kubesec.io/basics/spec-hostpid)** allows a pod to access all the processes running on the host and could allow an attacker to take malicious action. When paired with ```ptrace``` this can be used to escalate privileges outside of the container. When paired with a privileged container, the pod can see all of the processes on the host. An attacker can enter the ```init``` system (**[PID 1](https://denibertovic.com/posts/containers-and-signal-handling-why-you-need-to-care-about-pid-1/)**) on the host. From there, hackers can execute a shell and continue to escalate privileges to root. In this workflow, we will perform basic lateral credential harvesting via insecure process namespace sharing.
 <br/><br/>
 Download the script and make it executable:
 ```
