@@ -37,9 +37,12 @@ Confirm the privileges of your running workloads:
 ```
 kubectl get pods -A -o custom-columns=\
 "NAMESPACE:.metadata.namespace",\
-"NAME:.metadata.name",\
+"POD:.metadata.name",\
+"CONTAINER:.spec.containers[*].name",\
 "HOST_PID:.spec.hostPID",\
+"HOST_NET:.spec.hostNetwork",\
 "PRIVILEGED:.spec.containers[*].securityContext.privileged"
 ```
 
-<img width="1506" height="428" alt="Screenshot 2026-08-15 at 22 17 08" src="https://github.com/user-attachments/assets/94ddcee7-4e51-4288-bbea-dd19b063172c" />
+<img width="1506" height="508" alt="Screenshot 2026-08-15 at 22 33 32" src="https://github.com/user-attachments/assets/654ab802-6551-4e29-b1f9-a47528555b93" />
+
