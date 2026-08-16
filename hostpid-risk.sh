@@ -10,6 +10,17 @@ MAGENTA="\033[0;35m"
 BOLD="\033[1m"
 NC="\033[0m"
 
+# Simulated typing function for commands only
+type_cmd() {
+    local text="$1"
+    local speed="${2:-0.02}" # Delay in seconds between keystrokes
+    for (( i=0; i<${#text}; i++ )); do
+        echo -n "${text:$i:1}"
+        sleep "$(awk -v min="$speed" 'BEGIN{srand(); print min + (rand() * 0.025)}')"
+    done
+    echo ""
+}
+
 # Interactive pause and command runner
 step() {
     local intent="$1"
@@ -18,7 +29,10 @@ step() {
     echo -e "\n${ORANGE}----------------------------------------------------${NC}"
     echo -e "${ORANGE}${BOLD}INTENT:${NC} ${ORANGE}${intent}${NC}"
     echo -e "${ORANGE}----------------------------------------------------${NC}"
-    echo -e "${MAGENTA}$ ${cmd}${NC}"
+    
+    echo -en "${MAGENTA}$ ${NC}"
+    type_cmd "${cmd}" 0.02
+    
     echo -en "${CYAN}[Press ENTER to execute command...]${NC}"
     read -r
     echo ""
@@ -36,7 +50,7 @@ trap cleanup EXIT SIGINT
 
 clear
 echo -e "${CYAN}====================================================${NC}"
-echo -e "${CYAN}   Interactive Pod Security Misconfiguration Demo    ${NC}"
+echo -e "${CYAN}   Interactive Pod Security Misconfiguration Demo   ${NC}"
 echo -e "${CYAN}====================================================${NC}"
 
 # --- PHASE 1 ---
